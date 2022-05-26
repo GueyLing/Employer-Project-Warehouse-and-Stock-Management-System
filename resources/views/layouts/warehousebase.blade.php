@@ -20,7 +20,7 @@
   </button>
   <div class="dropdown-container">
     <a style="text-decoration: none;" href="#">  &nbsp;  &nbsp;  &nbsp; <small> Stock History</small> </a>
-    <a style="text-decoration: none;" href="#">  &nbsp;  &nbsp;  &nbsp; <small> Low Stock Alert</small> </a>
+    <a style="text-decoration: none;" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@lowStockAlert') }}">  &nbsp;  &nbsp;  &nbsp; <small> Low Stock Alert</small> </a>
   </div></li>
     </ul>
     </div>

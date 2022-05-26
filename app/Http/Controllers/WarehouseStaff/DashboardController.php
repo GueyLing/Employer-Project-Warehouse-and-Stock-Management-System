@@ -70,4 +70,9 @@ class DashboardController extends Controller
       $stocks = Stocktake::where('doc_no', '=', $doc_no)->get();
       return view('warehouse_staff.showstocktake',['stocks'=>$stocks]);
     }
+
+    public function lowStockAlert(){
+      $stocks = Stock::whereRaw('quantity < low_stock_alert')->get();
+      return view('warehouse_staff.lowstockalert',['stocks'=>$stocks]);
+    }
 }
