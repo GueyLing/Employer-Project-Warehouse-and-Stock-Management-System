@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Models\Stocktake;
+use App\Models\Activitylog;
 
 class DashboardController extends Controller
 {
@@ -56,12 +57,21 @@ class DashboardController extends Controller
            // mention other fields here
            $item ->save();
 
-           
            if ($request->get('quantity_adjusted')[$key] != 0){
             $stock = Stock::where('code', '=', $request->get('code')[$key])->first();
             $stock->quantity=$request->get('new_quantity')[$key];
             $stock->save();
-           }
+
+            $newactivity = new Activitylog;
+            $newactivity ->location = $request->location;
+            $newactivity ->product_name = $request->get('product_name')[$key];
+            $newactivity ->code = $request->get('code')[$key];
+            $newactivity ->quantity = $request->get('new_quantity')[$key];
+            $newactivity ->variance = $request->get('quantity_adjusted')[$key];
+            $newactivity ->activity="Stock Take";
+            // mention other fields here
+            $newactivity ->save();
+           }       
       }  
       return redirect()->action('App\Http\Controllers\WarehouseStaff\DashboardController@stockTake');
     }
@@ -74,5 +84,10 @@ class DashboardController extends Controller
     public function lowStockAlert(){
       $stocks = Stock::whereRaw('quantity < low_stock_alert')->get();
       return view('warehouse_staff.lowstockalert',['stocks'=>$stocks]);
+    }
+
+    public function stockReport(){
+      $activities = Activitylog::all();
+      return view('warehouse_staff.stockreport',['activities'=>$activities]);
     }
 }

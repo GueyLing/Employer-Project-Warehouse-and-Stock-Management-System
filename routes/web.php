@@ -47,3 +47,4 @@ Route::post('/warehousestaff_selectlocation', 'App\Http\Controllers\WarehouseSta
 Route::post('/warehousestaff_store', 'App\Http\Controllers\WarehouseStaff\DashboardController@store')->middleware('role:warehouse_staff');
 Route::get('/warehousestaff_show/{id}', 'App\Http\Controllers\WarehouseStaff\DashboardController@showData')->middleware('role:warehouse_staff');
 Route::get('/warehousestaff_lowstockalert', 'App\Http\Controllers\WarehouseStaff\DashboardController@lowStockAlert')->middleware('role:warehouse_staff');
+Route::get('/warehousestaff_stockreport', 'App\Http\Controllers\WarehouseStaff\DashboardController@stockReport')->middleware('role:warehouse_staff');
