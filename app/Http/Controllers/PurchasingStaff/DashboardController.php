@@ -28,4 +28,24 @@ class DashboardController extends Controller
         $stocks = Stock::whereRaw('quantity < low_stock_alert')->get();
         return view('purchasing_staff.lowstockalert',['stocks'=>$stocks]);
       }
+
+      public function search(Request $request){
+        $output="";
+        $stock=Stock::where('product_name','Like','%'.$request->
+        search.'%')->orWhere('location','Like','%'.$request->
+        search.'%')->orWhere('code','Like','%'.$request->
+        search.'%')->orWhere('quantity','Like','%'.$request->
+        search.'%')->get();
+
+        foreach($stock as $stock){ 
+          $output.=
+          '<tr>
+          <td>'.$stock->code.'</td>
+          <td>'.$stock->product_name.'</td>
+          <td>'.$stock->location.'</td>
+          <td>'.$stock->quantity.'</td>
+          </tr>';
+        }
+        return response($output);
+      }
 }

@@ -40,6 +40,7 @@ Route::post('/admin_editwarehouse', 'App\Http\Controllers\Admin\DashboardControl
 Route::get('/purchasingstaff_dashboard', 'App\Http\Controllers\PurchasingStaff\DashboardController@index')->middleware('role:purchasing_staff');
 Route::get('/purchasingstaff_stockhistory', 'App\Http\Controllers\PurchasingStaff\DashboardController@stockHistory')->middleware('role:purchasing_staff');
 Route::get('/purchasingstaff_lowstockalert', 'App\Http\Controllers\PurchasingStaff\DashboardController@lowStockAlert')->middleware('role:purchasing_staff');
+Route::get('/purchasingstaff_search', 'App\Http\Controllers\PurchasingStaff\DashboardController@search')->middleware('role:purchasing_staff');
 
 Route::get('/warehousestaff_dashboard', 'App\Http\Controllers\WarehouseStaff\DashboardController@index')->middleware('role:warehouse_staff');
 Route::get('/warehousestaff_stocktake', 'App\Http\Controllers\WarehouseStaff\DashboardController@stockTake')->middleware('role:warehouse_staff');
