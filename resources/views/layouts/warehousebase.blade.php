@@ -10,7 +10,7 @@
         <li><a role="button" class="dropdown-btn" style="text-decoration: none"><i class="fas fa-address-card"></i>&nbsp;&nbsp;&nbsp;&nbsp;Stock<i class="fas fa-caret-down"></i></a>
   </button>
   <div class="dropdown-container">
-    <a style="text-decoration: none;" href="#">  &nbsp;  &nbsp;  &nbsp; <small> Stock Adjustment</small> </a>
+    <a style="text-decoration: none;" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@stockAdjustment') }}">  &nbsp;  &nbsp;  &nbsp; <small> Stock Adjustment</small> </a>
     <a style="text-decoration: none;" href="#">  &nbsp;  &nbsp;  &nbsp; <small> Stock Issue</small> </a>
     <a style="text-decoration: none;" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@stockReceived') }}">  &nbsp;  &nbsp;  &nbsp; <small> Stock Received</small> </a>
     <a style="text-decoration: none;" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@stockTake') }}">  &nbsp;  &nbsp;  &nbsp; <small> Stock Take</small> </a>
