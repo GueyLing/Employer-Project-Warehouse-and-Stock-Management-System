@@ -106,4 +106,12 @@ class DashboardController extends Controller
     public function addStockAdjustment() {
       return view('warehouse_staff.stockadjustment_addnew');
     }
+
+    public function stockIssue() {
+      return view('warehouse_staff.stockissue_main');
+    }
+
+    public function addStockIssue() {
+      return view('warehouse_staff.stockissue_addnew');
+    }
 }
