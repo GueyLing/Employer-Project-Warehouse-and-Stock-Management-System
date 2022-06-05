@@ -107,18 +107,39 @@
   border-radius: 4px;
 }
     </style>
-    <script>function deleteRow(row) {
-        var i = row.parentNode.parentNode.rowIndex;
-        document.getElementById('staff').deleteRow(i);
-      }
-      
+    <script>
+        function deleteRow(row) {
+    var x=document.getElementById('staff');
+     var len = x.rows.length;
+     if(len>2){
+       var i=row.parentNode.parentNode.rowIndex;
+       document.getElementById('staff').deleteRow(i);
+     }
+     else{
+       alert("Can't delete the first row");
+     }
+}
       
       function insRow() {
         console.log('hi');
         var x = document.getElementById('staff').getElementsByTagName('tbody')[0];
         var new_row = x.rows[1].cloneNode(true);
         var len = x.rows.length;
-        
+        var inp = new_row.cells[0].getElementsByTagName('input')[0];
+        inp.id += len;
+        inp.value = '';
+        var inp1 = new_row.cells[1].getElementsByTagName('input')[0];
+        inp1.id += len;
+        inp1.value = '';
+        var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
+        inp2.id += len;
+        inp2.value = '';
+        var inp3 = new_row.cells[4].getElementsByTagName('input')[0];
+        inp3.id += len;
+        inp3.value = '';
+        var inp4 = new_row.cells[5].getElementsByTagName('input')[0];
+        inp4.id += len;
+        inp4.value = '';
         x.appendChild(new_row);
       }</script>
 </div>
