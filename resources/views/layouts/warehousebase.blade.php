@@ -12,7 +12,7 @@
   <div class="dropdown-container">
     <a style="text-decoration: none;" href="#">  &nbsp;  &nbsp;  &nbsp; <small> Stock Adjustment</small> </a>
     <a style="text-decoration: none;" href="#">  &nbsp;  &nbsp;  &nbsp; <small> Stock Issue</small> </a>
-    <a style="text-decoration: none;" href="#">  &nbsp;  &nbsp;  &nbsp; <small> Stock Received</small> </a>
+    <a style="text-decoration: none;" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@stockReceived') }}">  &nbsp;  &nbsp;  &nbsp; <small> Stock Received</small> </a>
     <a style="text-decoration: none;" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@stockTake') }}">  &nbsp;  &nbsp;  &nbsp; <small> Stock Take</small> </a>
   </div></li>
   

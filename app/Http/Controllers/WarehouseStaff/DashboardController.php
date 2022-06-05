@@ -90,4 +90,12 @@ class DashboardController extends Controller
       $activities = Activitylog::all();
       return view('warehouse_staff.stockreport',['activities'=>$activities]);
     }
+
+    public function stockReceived() {
+      return view('warehouse_staff.stockreceived_main');
+    }
+
+    public function addNewStockReceived() {
+      return view('warehouse_staff.stockreceived_addnew');
+    }
 }
