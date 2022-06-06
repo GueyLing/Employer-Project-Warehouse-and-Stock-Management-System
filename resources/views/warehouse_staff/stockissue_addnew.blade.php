@@ -45,7 +45,6 @@
       <th>Qty/UOM</th>
       <th>Location</th>
       <th>Description</th>
-      <th>Cost Price</th>
       <th width="8%">Action</th>
     </tr>
     <tr>
@@ -58,7 +57,7 @@
         <option value="Location3">Location 3</option>
       </select></td>
       <td><input type="text" placeHolder="Remark" class="form-control"></td>
-      <td><input type="number" min="0" placeHolder="Unit Cost" class="form-control"></td>
+ 
       <td><input type="button" id="delPOIbutton" class="button button7" value="-" onclick="deleteRow(this)" />
       <input type="button" class="button button8" id="addmorePOIbutton" style="float:right;" value="+" onclick="insRow()" /></td>
     </tr>
@@ -137,9 +136,6 @@
         var inp3 = new_row.cells[4].getElementsByTagName('input')[0];
         inp3.id += len;
         inp3.value = '';
-        var inp4 = new_row.cells[5].getElementsByTagName('input')[0];
-        inp4.id += len;
-        inp4.value = '';
         x.appendChild(new_row);
       }</script>
 </div>
