@@ -114,4 +114,34 @@ class DashboardController extends Controller
     public function addStockIssue() {
       return view('warehouse_staff.stockissue_addnew');
     }
+
+    public function retrieve(Request $req){
+      $user_id = $req->id;
+
+      // Database connection
+      $con = mysqli_connect("localhost", "root", "", "warehouse_management_system");
+    
+      if ($user_id !== "") {
+    
+          // Get corresponding first name and
+          // last name for that user id
+          $query = mysqli_query($con, "SELECT product_name, quantity, location
+           FROM stocks WHERE id='$user_id'");
+    
+          $row = mysqli_fetch_array($query);
+    
+          // Get the first name
+          $product = $row["product_name"];
+          $quantity = $row["quantity"];
+          $location = $row["location"];
+          
+      }
+    
+      // Store it in a array
+      $result = array("$product", "$quantity", "$location");
+    
+      // Send in JSON encoded form
+      $myJSON = json_encode($result);
+      echo $myJSON;
+    }
 }

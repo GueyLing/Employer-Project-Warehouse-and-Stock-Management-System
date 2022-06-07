@@ -41,23 +41,21 @@
             <tr>
               <th>Code</th>
               <th>Name</th>
-              <th>Qty/UOM</th>
+              <th>Current Qty</th>
+              <th>Adjusted Qty</th>
+              <th>Variance</th>
               <th>Location</th>
               <th>Description</th>
-              <th>Cost Price</th>
               <th width="8%">Action</th>
             </tr>
             <tr>
-              <td><input type="text" class="form-control" placeHolder="Product Code"></td>
-              <td><input type="text" class="form-control" placeHolder="Product Name"></td>
-              <td><input type="number" min="0" class="form-control" placeHolder="Quantity"></td>
-              <td><select name="Location" class="form-control">
-                <option value="Location1">Location 1</option>
-                <option value="Location2">Location 2</option>
-                <option value="Location3">Location 3</option>
-              </select></td>
+              <td><input type="text" id ="0" onkeyup="GetDetail(this.value, this.id)" value="" class="form-control" placeHolder="Product Code"></td>
+              <td><input type="text" id="name0" class="form-control" placeHolder="Product Name" readonly></td>
+              <td><input type="text" id="quantity0" name="quantity_available[]" class="form-control" placeHolder="Quantity" onkeyup="subtract();" readonly></td>
+              <td><input type="text" min="0" name="new_quantity[]" class="form-control" onkeyup="subtract();" placeHolder="New Qty"></td>
+              <td><input type="number" min="0" class="form-control" name="quantity_adjusted[]" placeHolder="Variance" readonly></td>
+              <td><input type="text" id="location0" class="form-control" placeHolder="Location" readonly></td>
               <td><input type="text" placeHolder="Remark" class="form-control"></td>
-              <td><input type="number" min="0" placeHolder="Unit Cost" class="form-control"></td>
               <td><input type="button" id="delPOIbutton" class="button button7" value="-" onclick="deleteRow(this)" />
               <input type="button" class="button button8" id="addmorePOIbutton" style="float:right;" value="+" onclick="insRow()" /></td>
             </tr>
@@ -152,14 +150,84 @@
         var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
         inp2.id += len;
         inp2.value = '';
-        var inp3 = new_row.cells[4].getElementsByTagName('input')[0];
+        var inp3 = new_row.cells[3].getElementsByTagName('input')[0];
         inp3.id += len;
         inp3.value = '';
-        var inp4 = new_row.cells[5].getElementsByTagName('input')[0];
+        var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
         inp4.id += len;
         inp4.value = '';
+        var inp5 = new_row.cells[6].getElementsByTagName('input')[0];
+        inp5.id += len;
+        inp5.value = '';
     x.appendChild(new_row);
   }</script>
+          <script>
+      
+            // onkeyup event will occur when the user 
+            // release the key and calls the function
+            // assigned to this event
+            function GetDetail(str, code) {
+                if (str.length == 0) {
+                    document.getElementById("name").value = "";
+                    return;
+                }
+                else {
+      
+                    // Creates a new XMLHttpRequest object
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function () {
+      
+                        // Defines a function to be called when
+                        // the readyState property changes
+                        if (this.readyState == 4 && 
+                                this.status == 200) {
+                              
+                            // Typical action to be performed
+                            // when the document is ready
+                            var myObj = JSON.parse(this.responseText);
+      
+                            // Returns the response data as a
+                            // string and store this array in
+                            // a variable assign the value 
+                            // received to first name input field
+                              
+                            document.getElementById
+                                ("name"+code).value = myObj[0];
+                                document.getElementById
+                                ("quantity"+code).value = myObj[1];
+                                document.getElementById
+                                ("location"+code).value = myObj[2];
+                              
+                            // Assign the value received to
+                            // last name input field
+                            // document.getElementById(
+                            //     "last_name").value = myObj[1];
+                        }
+                    };
+      
+                    // xhttp.open("GET", "filename", true);
+                    xmlhttp.open("GET", "/warehousestaff_retrieve/" + str, true);
+                      
+                    // Sends the request to the server
+                    xmlhttp.send();
+                }
+            }
+        </script>
+<script>
+  function subtract() {
+    console.log('ho');
+var h1 = document.getElementsByName("quantity_available[]");
+console.log(h1)
+for(var i = 0;i <h1.length; i++)
+{
+    var txtFirstNumberValue = document.getElementsByName("quantity_available[]")[i].value;
+    var txtSecondNumberValue = document.getElementsByName('new_quantity[]')[i].value;
+    var result = parseInt(txtSecondNumberValue) - parseInt(txtFirstNumberValue);
+    if (!isNaN(result)) {
+       document.getElementsByName('quantity_adjusted[]')[i].value = result;
+    }}
+}
+</script>
 </div>
 </div>
 @endsection
