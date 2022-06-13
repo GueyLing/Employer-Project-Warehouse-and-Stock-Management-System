@@ -6,65 +6,67 @@
     <div class="header"> 
     <div class="mycontent">
     <br>
-    <h2>Add New Stock Adjustment</h2>
-    <br>
-    <div class="container1">
-      <form action="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@storeStockAdjustment') }}" method="POST">
-        {{ csrf_field() }}
-          <div class="row">
-            <div class="col-25">
-              <label for="invoice-prefix">Invoice Prefix</label>
-            </div>
-            <div class="col-75">
-              <input type="text" class="form-control" id="invoice_prefix" name="invoice_prefix" placeholder="Invoice Prefix" required>
-            </div>
+    <h2>Add New Stock Adjustment</h2><br>
+    <form action="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@storeStockAdjustment') }}" method="POST" name="add_name" id="add_name">
+      {{ csrf_field() }}
+      <div class="container1">
+        <div class="row">
+          <div class="col-25">
+            <label for="invoice-prefix">Invoice Prefix</label>
           </div>
-          <div class="row">
-            <div class="col-25">
-              <label for="date">Date</label>
-            </div>
-            <div class="col-75">
-              <input type="text" class="form-control" id="date" name="date" placeholder="Date">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-25">
-              <label for="customer">Description</label>
-            </div>
-            <div class="col-75">
-              <input type="text" class="form-control" id="description" name="description" placeholder="Description">
-            </div>
+          <div class="col-75">
+            <input type="text" class="form-control" id="invoice_prefix" name="invoice_prefix" placeholder="Invoice Prefix" required>
           </div>
         </div>
-        <br>
+        <div class="row">
+          <div class="col-25">
+            <label for="date">Date</label>
+          </div>
+          <div class="col-75">
+            <input type="text" class="form-control" id="date" name="date" placeholder="Date">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-25">
+            <label for="customer">Description</label>
+          </div>
+          <div class="col-75">
+            <input type="text" class="form-control" id="description" name="description" placeholder="Description">
+          </div></div>
+      </div>
+      <br>
+      <div class="table-responsive">
         <table id="staff" class="table table-striped table-bordered">
-            <tbody>
-            <tr>
-              <th>Code</th>
-              <th style="width:20%">Name</th>
-              <th>Location</th>
-              <th>Current Qty</th>
-              <th>Adjusted Qty</th>
-              <th>Variance</th>
-              <th>Remark</th>
-              <th width="8%">Action</th>
-            </tr>
-            <tr>
-              <td><input type="text" id ="0" name="code[]" onkeyup="GetDetail(this.value, this.id)" value="" class="form-control" placeHolder="Code"></td>
-              <td><input type="text" id="name0" name="name[]" class="form-control" placeHolder="Product Name" readonly></td>
-              <td><input type="text" id="location0" name="location[]" class="form-control" placeHolder="Location" readonly></td>
-              <td><input type="text" id="quantity0" name="quantity_available[]" class="form-control" placeHolder="Quantity" onkeyup="subtract();" readonly></td>
-              <td><input type="text" min="0" name="new_quantity[]" class="form-control" onkeyup="subtract();" placeHolder="New Qty"></td>
-              <td><input type="number" min="0" class="form-control" name="quantity_adjusted[]" placeHolder="Variance" readonly></td>
-              <td><input type="text" name="remark[]" placeHolder="Remark" class="form-control"></td>
-              <td><input type="button" id="delPOIbutton" class="button button7" value="-" onclick="deleteRow(this)" />
-              <input type="button" class="button button8" id="addmorePOIbutton" style="float:right;" value="+" onclick="insRow()" /></td>
-            </tr>
-          </tbody>
-          </table>
-          <a><button type="submit" class="btn btn-success">Confirm</button></a>
-          <a role="button" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@stockAdjustment') }}" class="btn btn-secondary">Back</a>
-        </form>
+<tbody>
+<tr>
+<th>Code</th>
+<th style="width:20%">Name</th>
+<th>Location</th>
+<th>Current Qty</th>
+<th>Adjusted Qty</th>
+<th>Variance</th>
+<th>Remark</th>
+<th width="8%">Action</th>
+</tr>
+<tr>
+<td><input type="text" id ="0" name="code[]" onkeyup="GetDetail(this.value, this.id)" value="" class="form-control" placeHolder="Code"></td>
+<td><input type="text" id="name0" name="name[]" class="form-control" placeHolder="Product Name" readonly></td>
+<td><input type="text" id="location0" name="location[]" class="form-control" placeHolder="Location" readonly></td>
+<td><input type="text" id="quantity0" name="quantity_available[]" class="form-control" placeHolder="Quantity" onkeyup="subtract();" readonly></td>
+<td><input type="text" min="0" name="new_quantity[]" class="form-control" onkeyup="subtract();" placeHolder="New Qty"></td>
+<td><input type="number" min="0" class="form-control" name="quantity_adjusted[]" placeHolder="Variance" readonly></td>
+<td><input type="text" name="remark[]" placeHolder="Remark" class="form-control"></td>
+<td><input type="button" id="delPOIbutton" class="button button7" value="-" onclick="deleteRow(this)" />
+<input type="button" class="button button8" id="adds" style="float:right;" value="+" onclick="insRow()" /></td>
+</tr>
+</tbody>
+</table>
+<a><button type="submit" class="btn btn-success">Confirm</button></a>
+<a role="button" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@stockAdjustment') }}" class="btn btn-secondary">Back</a>
+      </div>
+ </form>
+  </div>
+</div>
 </div>
 <style>    
     label {
@@ -124,20 +126,8 @@
   border-radius: 4px;
 }
     </style>
-  <script>
-        function deleteRow(row) {
-    var x=document.getElementById('staff');
-     var len = x.rows.length;
-     if(len>2){
-       var i=row.parentNode.parentNode.rowIndex;
-       document.getElementById('staff').deleteRow(i);
-     }
-     else{
-       alert("Can't delete the first row");
-     }
-}
-  
-  function insRow() {
+          <script>
+            function insRow() {
     console.log('hi');
     var x = document.getElementById('staff').getElementsByTagName('tbody')[0];
     var new_row = x.rows[1].cloneNode(true);
@@ -161,8 +151,33 @@
         inp5.id += len;
         inp5.value = '';
     x.appendChild(new_row);
-  }</script>
-          <script>
+  }
+
+  function deleteRow(row) {
+    var x=document.getElementById('staff');
+     var len = x.rows.length;
+     if(len>2){
+       var i=row.parentNode.parentNode.rowIndex;
+       document.getElementById('staff').deleteRow(i);
+     }
+     else{
+       alert("Can't delete the first row");
+     }
+}
+
+            $(document).ready(function(){
+      $('#submit').click(function(){
+           $.ajax({
+                url:"/warehousestaff_storestockadjustment",
+                method:"POST",
+                data:$('#add_name').serialize(),
+                success:function(response)
+                {
+                     console.log(response);
+                }
+           });
+      });
+ });
       
             // onkeyup event will occur when the user 
             // release the key and calls the function
@@ -229,6 +244,4 @@ for(var i = 0;i <h1.length; i++)
     }}
 }
 </script>
-</div>
-</div>
 @endsection
