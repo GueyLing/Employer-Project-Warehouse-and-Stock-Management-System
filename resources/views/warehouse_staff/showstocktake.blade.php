@@ -29,12 +29,12 @@
             </tr>
             @foreach ($stocks as $key => $item)
             <tr style="vertical-align: middle;">
-                <td ><input type="text" class="form-control" name="product_name[]" value="{{ $item->product_name }}" readonly></td>
-                <td ><input type="text" class="form-control" name="code[]" value="{{ $item->code }}" readonly></td>
-                <td ><input type="text" class="form-control" name="quantity_available[]" value="{{ $item->quantity_available }}" readonly></td>
-                <td><input type="text" class="form-control" name="new_quantity[]" value="{{ $item->new_quantity }}" readonly></td>
-                <td><input type="text" class="form-control" name="quantity_adjusted[]" value="{{ $item->quantity_adjusted }}" readonly></td>
-                <td><input type="text" class="form-control" name="remark[]" value="{{ $item->remark }}" readonly></td>
+                <td >{{ $item->product_name }}</td>
+                <td >{{ $item->code }}</td>
+                <td >{{ $item->quantity_available }}</td>
+                <td>{{ $item->new_quantity }}</td>
+                <td>{{ $item->quantity_adjusted }}</td>
+                <td>{{ $item->remark }}</td>
             </tr>
             @endforeach
         </table>  

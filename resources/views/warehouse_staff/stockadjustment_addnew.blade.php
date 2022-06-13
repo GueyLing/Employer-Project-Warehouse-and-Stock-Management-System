@@ -9,13 +9,14 @@
     <h2>Add New Stock Adjustment</h2>
     <br>
     <div class="container1">
-        <form action="/action_page.php">
+      <form action="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@storeStockAdjustment') }}" method="POST">
+        {{ csrf_field() }}
           <div class="row">
             <div class="col-25">
               <label for="invoice-prefix">Invoice Prefix</label>
             </div>
             <div class="col-75">
-              <input type="text" class="form-control" id="invoice-prefix" name="Invoice Prefix" placeholder="Invoice Prefix">
+              <input type="text" class="form-control" id="invoice_prefix" name="invoice_prefix" placeholder="Invoice Prefix" required>
             </div>
           </div>
           <div class="row">
@@ -31,7 +32,7 @@
               <label for="customer">Description</label>
             </div>
             <div class="col-75">
-              <input type="text" class="form-control" id="Description" name="Description" placeholder="Description">
+              <input type="text" class="form-control" id="description" name="description" placeholder="Description">
             </div>
           </div>
         </div>
@@ -40,22 +41,22 @@
             <tbody>
             <tr>
               <th>Code</th>
-              <th>Name</th>
+              <th style="width:20%">Name</th>
+              <th>Location</th>
               <th>Current Qty</th>
               <th>Adjusted Qty</th>
               <th>Variance</th>
-              <th>Location</th>
-              <th>Description</th>
+              <th>Remark</th>
               <th width="8%">Action</th>
             </tr>
             <tr>
-              <td><input type="text" id ="0" onkeyup="GetDetail(this.value, this.id)" value="" class="form-control" placeHolder="Product Code"></td>
-              <td><input type="text" id="name0" class="form-control" placeHolder="Product Name" readonly></td>
+              <td><input type="text" id ="0" name="code[]" onkeyup="GetDetail(this.value, this.id)" value="" class="form-control" placeHolder="Code"></td>
+              <td><input type="text" id="name0" name="name[]" class="form-control" placeHolder="Product Name" readonly></td>
+              <td><input type="text" id="location0" name="location[]" class="form-control" placeHolder="Location" readonly></td>
               <td><input type="text" id="quantity0" name="quantity_available[]" class="form-control" placeHolder="Quantity" onkeyup="subtract();" readonly></td>
               <td><input type="text" min="0" name="new_quantity[]" class="form-control" onkeyup="subtract();" placeHolder="New Qty"></td>
               <td><input type="number" min="0" class="form-control" name="quantity_adjusted[]" placeHolder="Variance" readonly></td>
-              <td><input type="text" id="location0" class="form-control" placeHolder="Location" readonly></td>
-              <td><input type="text" placeHolder="Remark" class="form-control"></td>
+              <td><input type="text" name="remark[]" placeHolder="Remark" class="form-control"></td>
               <td><input type="button" id="delPOIbutton" class="button button7" value="-" onclick="deleteRow(this)" />
               <input type="button" class="button button8" id="addmorePOIbutton" style="float:right;" value="+" onclick="insRow()" /></td>
             </tr>
@@ -156,7 +157,7 @@
         var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
         inp4.id += len;
         inp4.value = '';
-        var inp5 = new_row.cells[6].getElementsByTagName('input')[0];
+        var inp5 = new_row.cells[5].getElementsByTagName('input')[0];
         inp5.id += len;
         inp5.value = '';
     x.appendChild(new_row);
@@ -215,7 +216,7 @@
         </script>
 <script>
   function subtract() {
-    console.log('ho');
+  
 var h1 = document.getElementsByName("quantity_available[]");
 console.log(h1)
 for(var i = 0;i <h1.length; i++)

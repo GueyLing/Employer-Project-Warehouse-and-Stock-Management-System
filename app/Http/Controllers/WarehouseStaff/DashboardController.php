@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Models\Stocktake;
+use App\Models\Stockadjustment;
 use App\Models\Activitylog;
 
 class DashboardController extends Controller
@@ -41,7 +42,7 @@ class DashboardController extends Controller
     ]);}
 
     public function store(Request $request){
-      foreach($request->input('product_name') as $key => $value) 
+      foreach($request->input('code') as $key => $value) 
       {
            $item = new Stocktake;
            $item ->location = $request->location;
@@ -99,12 +100,57 @@ class DashboardController extends Controller
       return view('warehouse_staff.stockreceived_addnew');
     }
 
+   
     public function stockAdjustment() {
-      return view('warehouse_staff.dashboard');
+      $stocks = Stockadjustment::all()->unique('invoice_prefix');
+      return view('warehouse_staff.dashboard', [
+        'stocks' => $stocks,
+    ]);
     }
 
     public function addStockAdjustment() {
       return view('warehouse_staff.stockadjustment_addnew');
+    }
+
+    public function storeStockAdjustment(Request $request){
+      foreach($request->input('code') as $key => $value) 
+      {
+           $item = new Stockadjustment;
+           $item ->invoice_prefix = $request->invoice_prefix;
+           $item ->date = $request->date;
+           $item ->description = $request->description;
+           $item ->name = $request->get('name')[$key];
+           $item ->code = $request->get('code')[$key];
+           $item ->location = $request->get('location')[$key];
+           $item ->quantity_available = $request->get('quantity_available')[$key];
+           $item ->new_quantity = $request->get('new_quantity')[$key];
+           $item ->quantity_adjusted = $request->get('quantity_adjusted')[$key];
+           $item ->remark = $request->get('remark')[$key];
+           // mention other fields here
+           $item ->save();
+
+           if ($request->get('quantity_adjusted')[$key] != 0){
+            $stock = Stock::where('id', '=', $request->get('code')[$key])->first();
+            $stock->quantity=$request->get('new_quantity')[$key];
+            $stock->save();
+
+            $newactivity = new Activitylog;
+            $newactivity ->location =  $request->get('location')[$key];
+            $newactivity ->product_name = $request->get('name')[$key];
+            $newactivity ->code = $request->get('code')[$key];
+            $newactivity ->quantity = $request->get('new_quantity')[$key];
+            $newactivity ->variance = $request->get('quantity_adjusted')[$key];
+            $newactivity ->activity="Stock Adjustment";
+            // mention other fields here
+            $newactivity ->save();
+           }       
+      }  
+      return redirect()->action('App\Http\Controllers\WarehouseStaff\DashboardController@stockAdjustment');
+    }
+
+    public function showDataStockAdjustment($invoice_prefix){
+      $stocks = Stockadjustment::where('invoice_prefix', '=', $invoice_prefix)->get();
+      return view('warehouse_staff.showstockadjustment',['stocks'=>$stocks]);
     }
 
     public function stockIssue() {
