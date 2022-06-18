@@ -13,7 +13,7 @@
 <form action="warehousestaff_addnewstockreceived" method="POST">
     @csrf
     <label>Doc No:</label><br>
-    <input type="text" class="form-control w-75" name="docNo" placeholder="Doc No"><br>
+    <input type="text" class="form-control w-75" name="docNo" placeholder="Doc No" required><br>
     <label>Doc Date:</label><br>
     <input type="date" class="form-control w-75" name="docDate"><br>
     <label>Description:</label><br>

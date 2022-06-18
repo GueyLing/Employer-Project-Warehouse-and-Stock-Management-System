@@ -27,7 +27,7 @@
                     <label for="date">Date</label>
                   </div>
                   <div class="col-75">
-                    <input type="text" class="form-control" name="date" placeholder="Date">
+                    <input type="date" class="form-control" name="date" placeholder="Date">
                   </div>
                 </div>
                 <div class="row">

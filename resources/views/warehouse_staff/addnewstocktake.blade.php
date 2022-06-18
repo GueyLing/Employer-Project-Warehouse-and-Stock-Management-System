@@ -42,9 +42,9 @@
     <label for="description">Location:</label>
     <a><button type="button" class="btn btn-primary selectStock" style="padding: 2px 10px;">Select Location</button></a><br><br>
     <label for="doc_no">Doc No:</label>
-    <input type="text" class="form-control w-75" id="docno" name="docno">
+    <input type="text" class="form-control w-75" id="docno" name="docno" required>
     <label for="doc_date">Doc Date:</label>
-    <input type="text" class="form-control w-75" id="docdate" name="docdate">
+    <input type="date" class="form-control w-75" id="docdate" name="docdate">
     <label for="description">Description:</label>
     <input type="text" class="form-control w-75" id="description" name="description"><br style="line-height:15px;">
 <br>

@@ -132,7 +132,7 @@ class DashboardController extends Controller
       $stockissue ->remark =$req ->get('location')[$key];
       $stockissue ->save();
 
-      $stock = Stock::where('id', '=', $req->get('prod_code')[$key])->first();
+      $stock = Stock::where('code', '=', $req->get('prod_code')[$key])->first();
       $stock->quantity=$stock->quantity-$req->get('qty')[$key];
       $stock->save();
       
@@ -189,7 +189,7 @@ class DashboardController extends Controller
            $item ->save();
 
            if ($request->get('quantity_adjusted')[$key] != 0){
-            $stock = Stock::where('id', '=', $request->get('code')[$key])->first();
+            $stock = Stock::where('code', '=', $request->get('code')[$key])->first();
             $stock->quantity=$request->get('new_quantity')[$key];
             $stock->save();
 
@@ -223,7 +223,7 @@ class DashboardController extends Controller
           // Get corresponding first name and
           // last name for that user id
           $query = mysqli_query($con, "SELECT product_name, quantity, location
-           FROM stocks WHERE id='$user_id'");
+           FROM stocks WHERE code='$user_id'");
     
           $row = mysqli_fetch_array($query);
     
@@ -253,7 +253,7 @@ class DashboardController extends Controller
           // Get corresponding first name and
           // last name for that user id
           $query = mysqli_query($con, "SELECT product_name, quantity, location
-           FROM stocks WHERE id='$user_id'");
+           FROM stocks WHERE code='$user_id'");
     
           $row = mysqli_fetch_array($query);
     
@@ -287,7 +287,7 @@ class DashboardController extends Controller
               $stockreceive->remark=$req->get('remark')[$key];
               $stockreceive->save();
 
-            $stock = Stock::where('id', '=', $req->get('product_code')[$key])->first();
+            $stock = Stock::where('code', '=', $req->get('product_code')[$key])->first();
             $stock->quantity=$stock->quantity+$req->get('quantity')[$key];
             $stock->save();
             
