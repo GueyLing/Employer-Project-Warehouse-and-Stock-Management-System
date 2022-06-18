@@ -132,8 +132,8 @@
                               
                             document.getElementById
                                 ("product_name"+code).value = myObj[0];
-                                document.getElementById
-                                ("quantity"+code).value = myObj[1];
+                                // document.getElementById
+                                // ("quantity"+code).value = myObj[1];
                                 document.getElementById
                                 ("location"+code).value = myObj[2];
                               

@@ -9,6 +9,7 @@ use App\Models\Stocktake;
 use App\Models\Stockadjustment;
 use App\Models\Stockreceive;
 use App\Models\Activitylog;
+use App\Models\Stockissue;
 
 class DashboardController extends Controller
 {
@@ -83,6 +84,11 @@ class DashboardController extends Controller
       return view('warehouse_staff.showstocktake',['stocks'=>$stocks]);
     }
 
+    public function showDatas($invoice_prefix){
+      $stock = Stockissue::where('invoice_prefix', '=', $invoice_prefix)->get();
+      return view('warehouse_staff.showstockissue',['stock'=>$stock]);
+    }
+
     public function lowStockAlert(){
       $stocks = Stock::whereRaw('quantity < low_stock_alert')->get();
       return view('warehouse_staff.lowstockalert',['stocks'=>$stocks]);
@@ -99,6 +105,55 @@ class DashboardController extends Controller
         'data' => $data,
     ]);
     }
+
+    public function stockIssue() {
+      $datas = Stockissue::all()->unique('invoice_prefix');
+      return view('warehouse_staff.stockissue_main', [
+        'datas' => $datas,
+    ]);
+    }
+
+    public function addNewStockIssue(Request $req) {
+      return view('warehouse_staff.stockissue_addnew');
+    }
+
+  public function addStockIssue(Request $req){
+    foreach($req->input('prod_code') as $key => $value) 
+     {
+
+      $stockissue = new Stockissue;
+      $stockissue ->invoice_prefix =$req ->invoice_prefix;
+      $stockissue ->date =$req ->date;
+      $stockissue ->customer =$req ->customer;
+      $stockissue ->prod_code =$req ->get('prod_code')[$key];
+      $stockissue ->prod_name =$req ->get('prod_name')[$key];
+      $stockissue ->qty =$req ->get('qty')[$key];
+      $stockissue ->location = $req ->get('location')[$key];
+      $stockissue ->remark =$req ->get('location')[$key];
+      $stockissue ->save();
+
+      $stock = Stock::where('id', '=', $req->get('prod_code')[$key])->first();
+      $stock->quantity=$stock->quantity-$req->get('qty')[$key];
+      $stock->save();
+      
+      $newactivity = new Activitylog;
+      $newactivity ->location =  $req->get('location')[$key];
+      $newactivity ->product_name = $req->get('prod_name')[$key];
+      $newactivity ->code = $req->get('prod_code')[$key];
+      $newactivity ->quantity = $stock->quantity;
+      $newactivity ->variance = '-'.$req->get('qty')[$key];
+      $newactivity ->activity="Stock Issue";
+      // mention other fields here
+      $newactivity ->save();
+     }
+     return redirect()->action('App\Http\Controllers\WarehouseStaff\DashboardController@stockIssue');
+    }
+
+    public function showStockIssue($invoice_prefix){
+      $datas = Stockissue::where('invoice_prefix', '=', $invoice_prefix)->get();
+      return view('warehouse_staff.showstockissue',['datas'=>$datas]);
+    }
+
 
     public function addNewStockReceived() {
       return view('warehouse_staff.stockreceived_addnew');
@@ -155,14 +210,6 @@ class DashboardController extends Controller
     public function showDataStockAdjustment($invoice_prefix){
       $stocks = Stockadjustment::where('invoice_prefix', '=', $invoice_prefix)->get();
       return view('warehouse_staff.showstockadjustment',['stocks'=>$stocks]);
-    }
-
-    public function stockIssue() {
-      return view('warehouse_staff.stockissue_main');
-    }
-
-    public function addStockIssue() {
-      return view('warehouse_staff.stockissue_addnew');
     }
 
     public function retrieveStockReceive(Request $req){
@@ -239,6 +286,20 @@ class DashboardController extends Controller
               $stockreceive->location=$req->get('location')[$key];
               $stockreceive->remark=$req->get('remark')[$key];
               $stockreceive->save();
+
+            $stock = Stock::where('id', '=', $req->get('product_code')[$key])->first();
+            $stock->quantity=$stock->quantity+$req->get('quantity')[$key];
+            $stock->save();
+            
+            $newactivity = new Activitylog;
+            $newactivity ->location =  $req->get('location')[$key];
+            $newactivity ->product_name = $req->get('product_name')[$key];
+            $newactivity ->code = $req->get('product_code')[$key];
+            $newactivity ->quantity = $stock->quantity;
+            $newactivity ->variance = $req->get('quantity')[$key];
+            $newactivity ->activity="Stock Received";
+            // mention other fields here
+            $newactivity ->save();
        }
        return redirect()->action('App\Http\Controllers\WarehouseStaff\DashboardController@stockReceived');
       }
