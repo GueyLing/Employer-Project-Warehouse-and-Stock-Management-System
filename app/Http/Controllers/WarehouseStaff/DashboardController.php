@@ -18,7 +18,10 @@ class DashboardController extends Controller
       }
 
     public function index() {
-      return view('warehouse_staff.dashboard');
+      $stocks = Stockadjustment::all()->unique('invoice_prefix');
+      return view('warehouse_staff.dashboard', [
+        'stocks' => $stocks,
+    ]);
     }
 
     public function stockTake() {
