@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Stock;
 use App\Models\Stocktake;
 use App\Models\Stockadjustment;
+use App\Models\Stockreceive;
 use App\Models\Activitylog;
 
 class DashboardController extends Controller
@@ -93,7 +94,10 @@ class DashboardController extends Controller
     }
 
     public function stockReceived() {
-      return view('warehouse_staff.stockreceived_main');
+      $data = Stockreceive::all()->unique('docNo');
+      return view('warehouse_staff.stockreceived_main', [
+        'data' => $data,
+    ]);
     }
 
     public function addNewStockReceived() {
@@ -161,6 +165,36 @@ class DashboardController extends Controller
       return view('warehouse_staff.stockissue_addnew');
     }
 
+    public function retrieveStockReceive(Request $req){
+      $user_id = $req->id;
+
+      // Database connection
+      $con = mysqli_connect("localhost", "root", "", "warehouse_management_system");
+    
+      if ($user_id !== "") {
+    
+          // Get corresponding first name and
+          // last name for that user id
+          $query = mysqli_query($con, "SELECT product_name, quantity, location
+           FROM stocks WHERE id='$user_id'");
+    
+          $row = mysqli_fetch_array($query);
+    
+          // Get the first name
+          $product = $row["product_name"];
+          $quantity = $row["quantity"];
+          $location = $row["location"];
+          
+      }
+    
+      // Store it in a array
+      $result = array("$product", "$quantity", "$location");
+    
+      // Send in JSON encoded form
+      $myJSON = json_encode($result);
+      echo $myJSON;
+    }
+
     public function retrieve(Request $req){
       $user_id = $req->id;
 
@@ -190,4 +224,27 @@ class DashboardController extends Controller
       $myJSON = json_encode($result);
       echo $myJSON;
     }
+
+    public function addStockReceive(Request $req){
+      foreach($req->input('product_code') as $key => $value) 
+       {
+              
+              $stockreceive = new Stockreceive;
+              $stockreceive->docNo=$req->docNo;
+              $stockreceive->docDate=$req->docDate;
+              $stockreceive->description=$req->description;
+              $stockreceive->product_code=$req->get('product_code')[$key];
+              $stockreceive->product_name=$req->get('product_name')[$key];
+              $stockreceive->quantity=$req->get('quantity')[$key];
+              $stockreceive->location=$req->get('location')[$key];
+              $stockreceive->remark=$req->get('remark')[$key];
+              $stockreceive->save();
+       }
+       return redirect()->action('App\Http\Controllers\WarehouseStaff\DashboardController@stockReceived');
+      }
+
+      public function showStockReceive($docNo){
+        $data = Stockreceive::where('docNo', '=', $docNo)->get();
+        return view('warehouse_staff.showstockreceive',['data'=>$data]);
+      }
 }

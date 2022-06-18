@@ -10,7 +10,8 @@
         <br>
         <h2>Add New Stock Received</h2>
         <br>
-<form>
+<form action="warehousestaff_addnewstockreceived" method="POST">
+    @csrf
     <label>Doc No:</label><br>
     <input type="text" class="form-control w-75" name="docNo" placeholder="Doc No"><br>
     <label>Doc Date:</label><br>
@@ -27,20 +28,14 @@
       <th>Qty/UOM</th>
       <th>Location</th>
       <th>Description</th>
-      <th>Cost Price</th>
       <th width="8%">Action</th>
     </tr>
     <tr>
-      <td><input type="text" class="form-control" placeHolder="Product Code"></td>
-      <td><input type="text" class="form-control" placeHolder="Product Name"></td>
-      <td><input type="number" min="0" class="form-control" placeHolder="Quantity"></td>
-      <td><select name="Location" class="form-control">
-        <option value="Location1">Location 1</option>
-        <option value="Location2">Location 2</option>
-        <option value="Location3">Location 3</option>
-      </select></td>
-      <td><input type="text" placeHolder="Remark" class="form-control"></td>
-      <td><input type="number" min="0" placeHolder="Unit Cost" class="form-control"></td>
+      <td><input type="text" id="0" class="form-control" onkeyup="GetDetail(this.value, this.id)" name="product_code[]"  value="" placeHolder="Product Code" ></td>
+      <td><input type="text" id="product_name0" class="form-control" name="product_name[]" placeHolder="Product Name" ></td>
+      <td><input type="number" id="quantity0" min="0" class="form-control" name="quantity[]" placeHolder="Quantity" ></td>
+      <td><input type ="text"id="location0" class="form-control" name="location[]" placeHolder="Location" ></td>
+      <td><input type="text" placeHolder="Remark" class="form-control" name="remark[]"></td>
       <td><input type="button" id="delPOIbutton" class="button button7" value="-" onclick="deleteRow(this)" />
       <input type="button" class="button button8" id="addmorePOIbutton" style="float:right;" value="+" onclick="insRow()" /></td>
     </tr>
@@ -98,14 +93,63 @@
         var inp2 = new_row.cells[2].getElementsByTagName('input')[0];
         inp2.id += len;
         inp2.value = '';
-        var inp3 = new_row.cells[4].getElementsByTagName('input')[0];
+        var inp3 = new_row.cells[3].getElementsByTagName('input')[0];
         inp3.id += len;
         inp3.value = '';
-        var inp4 = new_row.cells[5].getElementsByTagName('input')[0];
+        var inp4 = new_row.cells[4].getElementsByTagName('input')[0];
         inp4.id += len;
         inp4.value = '';
     x.appendChild(new_row);
-  }</script>
+  }
+  
+  // onkeyup event will occur when the user 
+            // release the key and calls the function
+            // assigned to this event
+            function GetDetail(str, code) {
+                if (str.length == 0) {
+                    document.getElementById("product_name").value = "";
+                    return;
+                }
+                else {
+      
+                    // Creates a new XMLHttpRequest object
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.onreadystatechange = function () {
+      
+                        // Defines a function to be called when
+                        // the readyState property changes
+                        if (this.readyState == 4 && 
+                                this.status == 200) {
+                              
+                            // Typical action to be performed
+                            // when the document is ready
+                            var myObj = JSON.parse(this.responseText);
+      
+                            // Returns the response data as a
+                            // string and store this array in
+                            // a variable assign the value 
+                            // received to first name input field
+                              
+                            document.getElementById
+                                ("product_name"+code).value = myObj[0];
+                                document.getElementById
+                                ("quantity"+code).value = myObj[1];
+                                document.getElementById
+                                ("location"+code).value = myObj[2];
+                              
+                            // Assign the value received to
+                            // last name input field
+                            // document.getElementById(
+                            //     "last_name").value = myObj[1];
+                        }
+                    };
+      
+                    // xhttp.open("GET", "filename", true);
+                    xmlhttp.open("GET", "/warehousestaff_retrievestockreceived/" + str, true);
+                      
+                    // Sends the request to the server
+                    xmlhttp.send();
+                }
+            }</script>
 </div>
 @endsection
-

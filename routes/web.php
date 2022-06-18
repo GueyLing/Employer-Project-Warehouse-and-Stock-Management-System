@@ -59,3 +59,7 @@ Route::get('/warehousestaff_addstockissue', 'App\Http\Controllers\WarehouseStaff
 Route::get('/warehousestaff_retrieve/{id}', 'App\Http\Controllers\WarehouseStaff\DashboardController@retrieve')->middleware('role:warehouse_staff');
 Route::post('/warehousestaff_storestockadjustment', 'App\Http\Controllers\WarehouseStaff\DashboardController@storeStockAdjustment')->middleware('role:warehouse_staff');
 Route::get('/warehousestaff_showstockadjustment/{id}', 'App\Http\Controllers\WarehouseStaff\DashboardController@showDataStockAdjustment')->middleware('role:warehouse_staff');
+
+Route::get('/warehousestaff_showstockreceive/{id}', 'App\Http\Controllers\WarehouseStaff\DashboardController@showStockReceive')->middleware('role:warehouse_staff');
+Route::post('/warehousestaff_addnewstockreceived', 'App\Http\Controllers\WarehouseStaff\DashboardController@addStockReceive')->middleware('role:warehouse_staff');
+Route::get('/warehousestaff_retrievestockreceived/{id}', 'App\Http\Controllers\WarehouseStaff\DashboardController@retrieveStockReceive')->middleware('role:warehouse_staff');
