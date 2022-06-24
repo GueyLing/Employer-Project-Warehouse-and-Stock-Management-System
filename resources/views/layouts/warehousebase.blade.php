@@ -22,6 +22,7 @@
     <a style="text-decoration: none;" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@stockReport') }}">  &nbsp;  &nbsp;  &nbsp; <small> Stock History</small> </a>
     <a style="text-decoration: none;" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@lowStockAlert') }}">  &nbsp;  &nbsp;  &nbsp; <small> Low Stock Alert</small> </a>
   </div></li>
+  <li><a href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@productMaintenance') }}"  style="text-decoration: none"><i class="fas fa-check-square"></i>&nbsp;&nbsp;&nbsp;&nbsp;Product</a></li>
     </ul>
     </div>
     <style>

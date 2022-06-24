@@ -311,4 +311,39 @@ class DashboardController extends Controller
         $data = Stockreceive::where('docNo', '=', $docNo)->get();
         return view('warehouse_staff.showstockreceive',['data'=>$data]);
       }
+
+      public function productMaintenance(){
+        $stocks = Stock::all();
+        return view('warehouse_staff.product',['stocks'=>$stocks]);
+      }
+
+      public function addNewProduct() {
+        return view('warehouse_staff.addproduct');
+      }
+
+      public function storeProduct(Request $request){    
+             $item = new Stock;
+             $item ->location = $request->location;
+             $item ->product_name = $request->product_name;
+             $item ->code = $request->code;
+             $item ->low_stock_alert = $request->low_stock_alert;
+             $item ->save(); 
+        return redirect()->action('App\Http\Controllers\WarehouseStaff\DashboardController@productMaintenance');
+      }
+
+      public function showProductData($id){
+        $stocks = Stock::where('id', '=', $id)->get();
+        return view('warehouse_staff.showproduct',['stocks'=>$stocks]);
+      }
+
+      public function edit(Request $req){
+      
+        $users = Stock::find($req->id);
+        $users->product_name=$req->product_name;
+        $users->code=$req->code;
+        $users->location=$req->location;
+        $users->low_stock_alert=$req->low_stock_alert;
+        $users->save();      
+        return redirect()->action('App\Http\Controllers\WarehouseStaff\DashboardController@productMaintenance');
+      }
 }
