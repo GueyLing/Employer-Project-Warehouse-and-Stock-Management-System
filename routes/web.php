@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotifyMail;
+use App\Models\Stock;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    
     return view('welcome');
 });
 
