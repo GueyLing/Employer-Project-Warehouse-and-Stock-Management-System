@@ -7,7 +7,7 @@
     <div class="header"> 
     <div class="mycontent">
         <br>        
-        <h2>Add New Stock Receive</h2>
+        <h2>View Stock Receive</h2>
         <br>
         <label for="docNo">Doc No:</label>
         {{ $data[0]->docNo }}<br>

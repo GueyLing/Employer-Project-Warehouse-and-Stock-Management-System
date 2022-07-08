@@ -6,7 +6,7 @@
     <div class="header"> 
     <div class="mycontent">
     <br>
-    <h2>Add New Stock Adjustment</h2>
+    <h2>View Stock Adjustment</h2>
     <br>
     <div class="container1">
       <form action="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@storeStockAdjustment') }}" method="POST">
@@ -61,7 +61,7 @@
             @endforeach
           </tbody>
           </table>
-          <a><button type="submit" class="btn btn-success">Confirm</button></a>
+       
           <a role="button" href="{{ action('App\Http\Controllers\WarehouseStaff\DashboardController@stockAdjustment') }}" class="btn btn-secondary">Back</a>
         </form>
 </div>

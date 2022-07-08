@@ -7,7 +7,7 @@
     <div class="header"> 
     <div class="mycontent">
         <br>        
-        <h2>Add New Stock Take</h2>
+        <h2>View Stock Take</h2>
         <br>
         <label for="description">Location:</label>
         {{ $stocks[0]->location }}<br>

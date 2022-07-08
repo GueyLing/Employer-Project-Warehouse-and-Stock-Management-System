@@ -7,7 +7,7 @@
     <div class="header"> 
     <div class="mycontent">
         <br>        
-        <h2>Add New Stock Issue</h2>
+        <h2>View Stock Issue</h2>
         <br>
         <label for="invoice_prefix">Invoice Prefix:</label>
         {{ $datas[0]->invoice_prefix }}<br>
