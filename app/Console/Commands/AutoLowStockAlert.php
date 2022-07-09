@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NotifyMail;
 use App\Models\Stock;
+use App\Models\User;
 
 class AutoLowStockAlert extends Command
 {
@@ -30,8 +31,14 @@ class AutoLowStockAlert extends Command
      */
     public function handle()
     {
+        $users = User::where('role', '=','warehouse_staff')->orWhere('role', '=','purchasing_staff')->get();
         $stocks = Stock::whereRaw('quantity < low_stock_alert')->get();
-        Mail::to('glhneah@gmail.com')->send(new NotifyMail($stocks));
+        if (!$stocks->isEmpty()) {
+            foreach ($users as $user) {
+            Mail::to($user->email)->send(new NotifyMail($stocks));
+            }
+        }
+        
         return 0;
     }
 }
