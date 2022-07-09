@@ -98,7 +98,7 @@ class DashboardController extends Controller
     }
 
     public function stockReport(){
-      $activities = Activitylog::all();
+      $activities = Activitylog::orderBy('created_at', 'desc')->paginate(3);
       return view('warehouse_staff.stockreport',['activities'=>$activities]);
     }
 

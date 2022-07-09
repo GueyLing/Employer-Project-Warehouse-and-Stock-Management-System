@@ -36,6 +36,7 @@
         </tr>
         @endforeach
     </table>  
+    {{ $activities->links() }}
     </div>
 </div>
 
